@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block title %}Sign In | ElectroMart{% endblock %}
@@ -12,17 +11,23 @@
         <div class="account-intro">
             <span class="intro-label">WELCOME TO ELECTROMART</span>
 
-            <h1>Your next favourite<br>device awaits.</h1>
+            <h1>Your next favourite <br>device awaits.</h1>
 
             <p>
                 Sign in to your account and continue
                 discovering technology that fits your lifestyle.
             </p>
 
-            <div class="intro-points">
-                <p>✓ Discover the latest gadgets</p>
-                <p>✓ Explore electronics collections</p>
-                <p>✓ Access your personal account</p>
+            <ul class="intro-points">
+                <li><span class="tick"><svg class="i"><use href="#i-check"/></svg></span>Discover the latest gadgets</li>
+                <li><span class="tick"><svg class="i"><use href="#i-check"/></svg></span>Explore electronics collections</li>
+                <li><span class="tick"><svg class="i"><use href="#i-check"/></svg></span>Access your personal account</li>
+            </ul>
+
+            <div class="intro-trust">
+                <span><svg class="i"><use href="#i-shield"/></svg> Secure sign-in</span>
+                <span><svg class="i"><use href="#i-truck"/></svg> Fast delivery</span>
+                <span><svg class="i"><use href="#i-refresh"/></svg> Easy returns</span>
             </div>
         </div>
 
@@ -34,7 +39,7 @@
                 <p>Enter your account details to continue.</p>
             </div>
 
-            <form action="{{ url_for('login') }}" method="POST">
+            <form action="{{ url_for('login') }}" method="POST" data-once>
 
                 <div class="field">
                     <label for="email">Email address</label>
@@ -42,25 +47,29 @@
                         type="email"
                         id="email"
                         name="email"
-                        placeholder="Enter your email address"
+                        placeholder="you@example.com"
                         autocomplete="email"
+                        autofocus
                         required>
                 </div>
 
                 <div class="field">
                     <label for="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Enter your password"
-                        autocomplete="current-password"
-                        required>
+                    <div class="input-wrap">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required>
+                        <button type="button" class="toggle-pass" data-toggle="password" aria-label="Show password">Show</button>
+                    </div>
                 </div>
 
                 <button type="submit" class="account-button">
                     Sign In
-                    <span>→</span>
+                    <svg class="i"><use href="#i-arrow"/></svg>
                 </button>
 
             </form>

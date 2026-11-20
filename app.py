@@ -1,55 +1,51 @@
 
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+from werkzeug.security import generate_password_hash, check_password_hash
 import re
-
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_login import (
-    login_user,
-    logout_user,
-    login_required,
-    current_user
-)
-
-from extensions import db, login_manager
-from models import User
-
 
 app = Flask(__name__)
 
-# Application configuration
-app.config["SECRET_KEY"] = "my_authentication_secret_key"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.secret_key = "electromart-development-secret"
 
-# Initialize extensions
-db.init_app(app)
-login_manager.init_app(app)
+# Make current_user available in all HTML templates
 
-# Redirect unauthenticated users to login
-login_manager.login_view = "login"
-login_manager.login_message = "Please login to access your dashboard."
-login_manager.login_message_category = "error"
+class TemplateUser:
 
+    @property
+    def is_authenticated(self):
+        return "user_email" in session
 
-# USER SESSION MANAGEMENT
-@login_manager.user_loader
-def load_user(user_id):
-    try:
-        return db.session.get(User, int(user_id))
-    except (ValueError, TypeError):
-        return None
+    @property
+    def username(self):
+        return session.get("username")
+
+    @property
+    def email(self):
+        return session.get("user_email")
 
 
-# HOME PAGE
+@app.context_processor
+def inject_current_user():
+    return {"current_user": TemplateUser()}
+
+
+# Temporary user storage (for testing only)
+users = {}
+
+
+# HOME
 @app.route("/")
 def home():
-    return render_template("home.html")
+    if "user_email" in session:
+        return redirect(url_for("dashboard"))
+    return redirect(url_for("login"))
 
 
-# USER REGISTRATION
+# REGISTRATION
 @app.route("/register", methods=["GET", "POST"])
 def register():
 
-    if current_user.is_authenticated:
+    if "user_email" in session:
         return redirect(url_for("dashboard"))
 
     if request.method == "POST":
@@ -57,58 +53,49 @@ def register():
         username = request.form.get("username", "").strip()
         email = request.form.get("email", "").strip().lower()
         password = request.form.get("password", "")
+        confirm_password = request.form.get("confirm_password", "")
 
-        # Validate empty fields
-        if not username or not email or not password:
-            flash("All fields are required!", "error")
+        if not all([username, email, password, confirm_password]):
+            flash("All fields are required.", "error")
             return redirect(url_for("register"))
 
-        # Validate username
         if len(username) > 100:
-            flash("Username must be below 100 characters.", "error")
+            flash("Username is too long.", "error")
             return redirect(url_for("register"))
 
-        # Validate email
         if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
             flash("Enter a valid email address.", "error")
             return redirect(url_for("register"))
 
-        # Validate password
+        if email in users:
+            flash("Email already registered. Please login.", "error")
+            return redirect(url_for("login"))
+
         if len(password) < 8:
             flash("Password must contain at least 8 characters.", "error")
             return redirect(url_for("register"))
 
-        # Check duplicate email
-        existing_user = User.query.filter_by(email=email).first()
+        if password != confirm_password:
+            flash("Passwords do not match.", "error")
+            return redirect(url_for("register"))
 
-        if existing_user:
-            flash("Email already registered! Please login.", "error")
-            return redirect(url_for("login"))
-
-        # Create new user
-        new_user = User(
-            username=username,
-            email=email
-        )
-
-        # Securely hash password
-        new_user.set_password(password)
-
-        db.session.add(new_user)
-        db.session.commit()
+        users[email] = {
+            "username": username,
+            "email": email,
+            "password": generate_password_hash(password)
+        }
 
         flash("Registration successful! Please login.", "success")
-
         return redirect(url_for("login"))
 
     return render_template("register.html")
 
 
-# USER LOGIN
+# LOGIN
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
-    if current_user.is_authenticated:
+    if "user_email" in session:
         return redirect(url_for("dashboard"))
 
     if request.method == "POST":
@@ -116,58 +103,46 @@ def login():
         email = request.form.get("email", "").strip().lower()
         password = request.form.get("password", "")
 
-        # Check empty fields
-        if not email or not password:
-            flash("Please enter your email and password.", "error")
-            return redirect(url_for("login"))
+        user = users.get(email)
 
-        # Find user by email
-        user = User.query.filter_by(email=email).first()
+        if user and check_password_hash(user["password"], password):
 
-        # Verify password
-        if user and user.check_password(password):
-
-            login_user(user)
+            session["user_email"] = email
+            session["username"] = user["username"]
 
             flash("Login successful!", "success")
+            return redirect(url_for("dashboard"))
 
-            return redirect(url_for("home"))
-
-        flash("Invalid email or password!", "error")
-
+        flash("Invalid email or password.", "error")
         return redirect(url_for("login"))
 
     return render_template("login.html")
 
 
-# USER DASHBOARD
+# DASHBOARD
 @app.route("/dashboard")
-@login_required
 def dashboard():
+
+    if "user_email" not in session:
+        flash("Please login first.", "error")
+        return redirect(url_for("login"))
 
     return render_template(
         "dashboard.html",
-        username=current_user.username,
-        email=current_user.email
+        username=session["username"],
+        email=session["user_email"]
     )
 
 
-# USER LOGOUT
+# LOGOUT
 @app.route("/logout", methods=["POST"])
-@login_required
 def logout():
 
-    logout_user()
+    session.clear()
 
-    flash("You have logged out successfully!", "success")
-
+    flash("Logged out successfully.", "success")
     return redirect(url_for("login"))
 
 
-# CREATE DATABASE AND RUN APPLICATION
 if __name__ == "__main__":
-
-    with app.app_context():
-        db.create_all()
-
     app.run(debug=True)
