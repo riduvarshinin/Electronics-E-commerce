@@ -1,14 +1,19 @@
 
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
+from database import get_db_connection
 import re
+import os
 
 app = Flask(__name__)
 
-app.secret_key = "electromart-development-secret"
+app.secret_key = os.getenv(
+    "FLASK_SECRET_KEY",
+    "electromart-development-secret"
+)
 
-# Make current_user available in all HTML templates
 
+# CURRENT USER FOR HTML TEMPLATES
 class TemplateUser:
 
     @property
@@ -29,69 +34,69 @@ def inject_current_user():
     return {"current_user": TemplateUser()}
 
 
-# Temporary user storage (for testing only)
-users = {}
-
-
 # HOME
 @app.route("/")
 def home():
     if "user_email" in session:
         return redirect(url_for("dashboard"))
+
     return redirect(url_for("login"))
 
 
 # REGISTRATION
-@app.route("/register", methods=["GET", "POST"])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
 
-    if "user_email" in session:
-        return redirect(url_for("dashboard"))
+        password_hash = generate_password_hash(password)
 
-    if request.method == "POST":
+        connection = None
+        cursor = None
 
-        username = request.form.get("username", "").strip()
-        email = request.form.get("email", "").strip().lower()
-        password = request.form.get("password", "")
-        confirm_password = request.form.get("confirm_password", "")
+        try:
+            connection = get_db_connection()
+            cursor = connection.cursor()
 
-        if not all([username, email, password, confirm_password]):
-            flash("All fields are required.", "error")
-            return redirect(url_for("register"))
+            sql = """
+                INSERT INTO users (full_name, email, password_hash, role)
+                VALUES (%s, %s, %s, %s)
+            """
 
-        if len(username) > 100:
-            flash("Username is too long.", "error")
-            return redirect(url_for("register"))
+            cursor.execute(sql, (
+                username,
+                email,
+                password_hash,
+                'customer'
+            ))
 
-        if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
-            flash("Enter a valid email address.", "error")
-            return redirect(url_for("register"))
+            connection.commit()
 
-        if email in users:
-            flash("Email already registered. Please login.", "error")
-            return redirect(url_for("login"))
+            print("Inserted rows:", cursor.rowcount)
+            print("New user ID:", cursor.lastrowid)
 
-        if len(password) < 8:
-            flash("Password must contain at least 8 characters.", "error")
-            return redirect(url_for("register"))
+            flash("Registration successful!", "success")
+            return redirect(url_for('login'))
 
-        if password != confirm_password:
-            flash("Passwords do not match.", "error")
-            return redirect(url_for("register"))
+        except Exception as e:
+            if connection:
+                connection.rollback()
 
-        users[email] = {
-            "username": username,
-            "email": email,
-            "password": generate_password_hash(password)
-        }
+            print("REGISTRATION DATABASE ERROR:", e)
+            flash("Registration failed. Please try again.", "danger")
 
-        flash("Registration successful! Please login.", "success")
-        return redirect(url_for("login"))
+        finally:
+            if cursor:
+                cursor.close()
+            if connection:
+                connection.close()
 
-    return render_template("register.html")
-
+    return render_template('register.html')
 
 # LOGIN
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
@@ -103,20 +108,53 @@ def login():
         email = request.form.get("email", "").strip().lower()
         password = request.form.get("password", "")
 
-        user = users.get(email)
+        connection = None
+        cursor = None
 
-        if user and check_password_hash(user["password"], password):
+        try:
+            connection = get_db_connection()
+            cursor = connection.cursor(dictionary=True)
 
-            session["user_email"] = email
-            session["username"] = user["username"]
+            cursor.execute(
+                """
+                SELECT user_id, full_name, email, password_hash, role
+                FROM users
+                WHERE email = %s
+                """,
+                (email,)
+            )
 
-            flash("Login successful!", "success")
-            return redirect(url_for("dashboard"))
+            user = cursor.fetchone()
 
-        flash("Invalid email or password.", "error")
-        return redirect(url_for("login"))
+            if user and check_password_hash(
+                user["password_hash"], password
+            ):
+
+                session.clear()
+                session["user_id"] = user["user_id"]
+                session["user_email"] = user["email"]
+                session["username"] = user["full_name"]
+                session["role"] = user["role"]
+
+                flash("Login successful!", "success")
+                return redirect(url_for("dashboard"))
+
+            flash("Invalid email or password.", "error")
+            return redirect(url_for("login"))
+
+        except Exception:
+            app.logger.exception("Login database error")
+            flash("Login failed. Please try again.", "error")
+            return redirect(url_for("login"))
+
+        finally:
+            if cursor:
+                cursor.close()
+            if connection:
+                connection.close()
 
     return render_template("login.html")
+
 
 
 # DASHBOARD
@@ -132,6 +170,51 @@ def dashboard():
         username=session["username"],
         email=session["user_email"]
     )
+
+
+@app.route("/products")
+def products():
+
+    if "user_email" not in session:
+        return redirect(url_for("login"))
+
+    connection = None
+    cursor = None
+
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT
+                product_id,
+                product_name,
+                brand,
+                description,
+                price,
+                stock_quantity,
+                image_url
+            FROM products
+            ORDER BY product_id DESC
+        """)
+
+        products = cursor.fetchall()
+
+        return render_template(
+            "products.html",
+            products=products
+        )
+
+    except Exception:
+        app.logger.exception("Unable to load products")
+        flash("Unable to load products.", "error")
+        return redirect(url_for("dashboard"))
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
 
 
 # LOGOUT
