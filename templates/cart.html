@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .cart {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .item {
+            border-bottom: 1px solid #ddd;
+            padding: 15px;
+        }
+
+        button {
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>My Shopping Cart 🛒</h1>
+
+    <div class="cart">
+
+        {% for item in items %}
+        <div class="item">
+            <h3>{{ item.product.name }}</h3>
+            <p>Price: ₹{{ item.product.price }}</p>
+            <p<form action="{{ url_for('cart.update_cart', item_id=item.id) }}" method="POST">
+    <input
+        type="number"
+        name="quantity"
+        value="{{ item.quantity }}"
+        min="1"
+        max="{{ item.product.stock }}"
+        required
+    >
+    <button type="submit">Update Quantity</button>
+</form>
+            <p>Subtotal: ₹{{ item.product.price * item.quantity }}</p>
+
+            <form action="{{ url_for('cart.remove_from_cart', item_id=item.id) }}" method="POST">
+                <button type="submit">Remove</button>
+            </form>
+        </div>
+        {% else %}
+        <p>Your shopping cart is empty.</p>
+        {% endfor %}
+
+        <h2>Total: ₹{{ total }}</h2>
+
+    </div>
+
+</body>
+</html>
