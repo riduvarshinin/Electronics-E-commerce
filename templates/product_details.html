@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | ElectroMart</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="product-details-page">
+
+    <!-- HEADER -->
+    <header class="admin-header">
+        <a href="/" class="brand">
+            Electro<span>Mart</span>
+        </a>
+
+        <div class="header-label">Product Details</div>
+
+        <a href="/" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+        </a>
+    </header>
+
+    <main class="details-container">
+
+        <!-- BREADCRUMB -->
+        <nav class="details-breadcrumb">
+            <a href="/">Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Product Details</span>
+        </nav>
+
+        {% if product %}
+
+        <!-- PRODUCT DETAILS -->
+        <section class="product-details-layout">
+
+            <!-- PRODUCT IMAGE -->
+            <div class="details-image-section">
+                <div class="details-image-box">
+                    <img
+                        src="{{ url_for('static', filename=product.image) }}"
+                        alt="{{ product.name }}">
+                </div>
+            </div>
+
+            <!-- PRODUCT INFORMATION -->
+            <div class="details-information">
+
+                <p class="details-brand">{{ product.brand }}</p>
+
+                <h1>{{ product.name }}</h1>
+
+                <p class="details-model">
+                    Model Number: {{ product.model_number }}
+                </p>
+
+                <div class="details-pricing">
+                    <span class="details-selling-price">
+                        ₹{{ product.discount_price or product.original_price }}
+                    </span>
+
+                    {% if product.discount_price %}
+                    <span class="details-original-price">
+                        ₹{{ product.original_price }}
+                    </span>
+                    {% endif %}
+                </div>
+
+                
+<!-- STOCK AVAILABILITY -->
+<div class="details-stock">
+    {% if product.stock > 0 %}
+        <i class="fa-solid fa-circle-check"></i>
+        <span>In Stock</span>
+    {% else %}
+        <i class="fa-solid fa-circle-xmark"></i>
+        <span>Out of Stock</span>
+    {% endif %}
+</div>
+
+<!-- PRODUCT QUANTITY -->
+<div class="product-quantity-section">
+    <label>Quantity</label>
+
+    <div class="quantity-control">
+        <button type="button" id="decrease-quantity">−</button>
+
+        <input type="number"
+               id="product-quantity"
+               value="1"
+               min="1"
+               max="{{ product.stock }}"
+               readonly>
+
+        <button type="button" id="increase-quantity">+</button>
+    </div>
+</div>
+
+
+                <div class="details-description">
+                    <h3>Product Description</h3>
+                    <p>{{ product.description }}</p>
+                </div>
+
+                <div class="details-specifications">
+                    <h3>Specifications</h3>
+
+                    <table>
+                        <tr><th>Colour</th><td>{{ product.colour or 'Not specified' }}</td></tr>
+                        <tr><th>RAM</th><td>{{ product.ram or 'Not specified' }}</td></tr>
+                        <tr><th>Storage</th><td>{{ product.storage or 'Not specified' }}</td></tr>
+                        <tr><th>Processor</th><td>{{ product.processor or 'Not specified' }}</td></tr>
+                        <tr><th>Display</th><td>{{ product.display_size or 'Not specified' }}</td></tr>
+                        <tr><th>Battery</th><td>{{ product.battery or 'Not specified' }}</td></tr>
+                        <tr><th>Warranty</th><td>{{ product.warranty or 'Not specified' }}</td></tr>
+                    </table>
+                </div>
+
+                <!-- ACTION BUTTONS -->
+                <div class="details-actions">
+                    <button type="button" class="details-cart-button" disabled>
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Add to Cart
+                    </button>
+
+                    <button type="button" class="details-buy-button" disabled>
+                        <i class="fa-solid fa-bolt"></i>
+                        Buy Now
+                    </button>
+                </div>
+
+                <p class="integration-note">
+                    Cart and checkout integration will be enabled after
+                    connecting the respective team modules.
+                </p>
+
+            </div>
+        </section>
+
+        {% else %}
+
+        <!-- DATABASE CONNECTION PENDING -->
+        <section class="details-empty-state">
+            <i class="fa-solid fa-box-open"></i>
+            <h2>Product Information Not Available</h2>
+            <p>
+                Product details will appear here after the shared
+                product database is connected.
+            </p>
+            <a href="/" class="details-back-button">
+                Back to Home
+            </a>
+        </section>
+
+        {% endif %}
+
+    </main>
+
+</body>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const quantityInput = document.getElementById("product-quantity");
+        const decreaseButton = document.getElementById("decrease-quantity");
+        const increaseButton = document.getElementById("increase-quantity");
+
+        if (!quantityInput) return;
+
+        const maxStock = Number(quantityInput.max);
+        const minStock = 1;
+
+        function updateQuantity() {
+            const quantity = Number(quantityInput.value);
+
+            decreaseButton.disabled = quantity <= minStock;
+            increaseButton.disabled =
+                maxStock <= 0 || quantity >= maxStock;
+        }
+
+        decreaseButton.addEventListener("click", function () {
+            let quantity = Number(quantityInput.value);
+
+            if (quantity > minStock) {
+                quantityInput.value = quantity - 1;
+            }
+
+            updateQuantity();
+        });
+
+        increaseButton.addEventListener("click", function () {
+            let quantity = Number(quantityInput.value);
+
+            if (quantity < maxStock) {
+                quantityInput.value = quantity + 1;
+            }
+
+            updateQuantity();
+        });
+
+        if (maxStock <= 0) {
+            quantityInput.value = 0;
+            quantityInput.disabled = true;
+            decreaseButton.disabled = true;
+            increaseButton.disabled = true;
+        }
+
+        updateQuantity();
+    });
+    </script>
+
+    </html>

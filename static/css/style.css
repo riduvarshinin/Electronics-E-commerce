@@ -1,0 +1,1768 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6fb;
+    color: #172033;
+}
+
+/* Navigation Header */
+
+.admin-header {
+    min-height: 72px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 7%;
+    border-bottom: 1px solid #e8ebf1;
+    box-shadow: 0 2px 8px rgba(20, 35, 60, 0.04);
+}
+
+.brand {
+    font-size: 25px;
+    font-weight: 750;
+    color: #172033;
+    letter-spacing: -0.6px;
+}
+
+.admin-header .brand::before {
+    content: "⚡";
+    display: inline-flex;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    margin-right: 9px;
+    background: #5684dc;
+    color: white;
+    border-radius: 11px;
+    font-size: 19px;
+    vertical-align: middle;
+    box-shadow: 0 3px 9px rgba(86, 132, 220, 0.25);
+}
+
+.brand span {
+    color: #5684dc;
+}
+
+.header-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #526078;
+}
+
+/* Main Page */
+
+.page-container {
+    width: 86%;
+    max-width: 1150px;
+    margin: 38px auto;
+}
+
+.page-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.breadcrumb {
+    font-size: 13px;
+    color: #8792a5;
+    margin-bottom: 10px;
+}
+
+.page-heading h1 {
+    font-size: 29px;
+    font-weight: 700;
+    color: #172033;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #788397;
+}
+
+.back-link {
+    text-decoration: none;
+    color: #5684dc;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Product Form */
+
+.product-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.form-section {
+    background: #ffffff;
+    padding: 28px 30px;
+    border: 1px solid #e8ebf1;
+    border-radius: 13px;
+    box-shadow: 0 3px 12px rgba(20, 35, 60, 0.035);
+}
+
+.section-heading {
+    margin-bottom: 23px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.section-heading h2 {
+    font-size: 19px;
+    color: #172033;
+    margin-bottom: 7px;
+}
+
+.section-heading p {
+    font-size: 13px;
+    color: #8792a5;
+}
+
+/* Input Layout */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 21px 25px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #344158;
+}
+
+.form-group label span {
+    color: #e05252;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1px solid #dfe4ed;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #26344b;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.form-group input,
+.form-group select {
+    height: 45px;
+}
+
+.form-group textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #5684dc;
+    box-shadow: 0 0 0 3px rgba(86, 132, 220, 0.12);
+}
+
+.field-note {
+    margin-top: 14px;
+    font-size: 12px;
+    color: #8792a5;
+}
+
+/* Image Upload */
+
+.upload-area {
+    border: 2px dashed #d5deed;
+    border-radius: 11px;
+    background: #f9faff;
+    padding: 30px;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+.upload-area:hover {
+    border-color: #5684dc;
+    background: #f3f7ff;
+}
+
+.upload-area input[type="file"] {
+    display: none;
+}
+
+.upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.upload-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #edf3ff;
+    color: #5684dc;
+    border-radius: 12px;
+    font-size: 27px;
+}
+
+.upload-label strong {
+    color: #5684dc;
+    font-size: 14px;
+}
+
+.upload-label small {
+    color: #8792a5;
+    font-size: 12px;
+}
+
+#image-preview {
+    display: none;
+    max-width: 200px;
+    max-height: 180px;
+    object-fit: contain;
+    margin: 20px auto 0;
+    border-radius: 8px;
+}
+
+/* Form Buttons */
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-bottom: 35px;
+}
+
+.form-actions button {
+    padding: 12px 24px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.cancel-button {
+    background: #ffffff;
+    border: 1px solid #dfe4ed;
+    color: #536078;
+}
+
+.cancel-button:hover {
+    background: #f1f3f8;
+}
+
+.submit-button {
+    background: #5684dc;
+    border: 1px solid #5684dc;
+    color: #ffffff;
+}
+
+.submit-button:hover {
+    background: #416fc5;
+    border-color: #416fc5;
+}
+
+/* Mobile Responsive */
+
+@media (max-width: 700px) {
+    .admin-header {
+        padding: 0 5%;
+    }
+
+    .brand {
+        font-size: 21px;
+    }
+
+    .page-container {
+        width: 92%;
+        margin-top: 25px;
+    }
+
+    .page-heading {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .page-heading h1 {
+        font-size: 25px;
+    }
+
+    .form-section {
+        padding: 22px 18px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: auto;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .form-actions button {
+        width: 100%;
+    }
+}
+
+/* Basic Information Layout */
+
+.basic-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    gap: 25px;
+    align-items: center;
+}
+
+.basic-illustration {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 220px;
+}
+
+.basic-illustration img {
+    width: 100%;
+    max-width: 220px;
+    height: 220px;
+    object-fit: contain;
+}
+
+@media (max-width: 800px) {
+    .basic-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .basic-illustration {
+        min-height: 150px;
+    }
+
+    .basic-illustration img {
+        height: 150px;
+    }
+}
+
+/* =========================================
+   ELECTROMART CUSTOMER HOME PAGE
+   ========================================= */
+
+:root {
+    --navy: #111b32;
+    --navy-light: #1d376c;
+    --blue: #5684dc;
+    --background: #f4f6fb;
+    --white: #ffffff;
+    --text: #111b32;
+    --muted: #73809b;
+    --border: #e1e7f2;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.store-layout {
+    display: flex;
+    min-height: 100vh;
+    background: var(--background);
+    color: var(--text);
+    font-family: Arial, sans-serif;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 272px;
+    min-width: 272px;
+    background: var(--navy);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 22px 16px;
+    min-height: 100vh;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 8px 30px;
+}
+
+
+
+.brand h2 {
+    font-size: 22px;
+    color: white;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.brand h2 span {
+    color: #7da6ff;
+}
+
+.sidebar-menu {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.menu-heading {
+    color: #8ca6d7;
+    font-size: 13px;
+    margin: 14px 13px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-height: 47px;
+    padding: 0 15px;
+    margin-bottom: 5px;
+    border-radius: 12px;
+    color: #e2e9f8;
+    text-decoration: none;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.menu-item i {
+    width: 19px;
+    font-size: 17px;
+    text-align: center;
+}
+
+.menu-item:hover,
+.menu-item.active {
+    background: #1d315b;
+    color: white;
+}
+
+.menu-item.active {
+    border-left: 4px solid #6996ff;
+    font-weight: 600;
+}
+
+.hot-label {
+    margin-left: auto;
+    background: #fff0e8;
+    color: #d74718;
+    border-radius: 20px;
+    padding: 3px 9px;
+    font-size: 11px;
+}
+
+.account-heading {
+    margin-top: 24px;
+}
+
+/* USER PROFILE */
+
+.sidebar-user {
+    background: #1b2740;
+    border-radius: 13px;
+    padding: 13px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.user-avatar {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    background: var(--blue);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+}
+
+.user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.user-info h4 {
+    margin: 0 0 3px;
+    font-size: 14px;
+}
+
+.user-info p {
+    margin: 0;
+    font-size: 12px;
+    color: #aebbd5;
+}
+
+.logout-icon {
+    color: #aebbd5;
+    font-size: 18px;
+    padding: 7px;
+}
+
+/* MAIN CONTENT */
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.topbar {
+    height: 78px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 36px;
+}
+
+.topbar p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.top-actions {
+    display: flex;
+    gap: 14px;
+}
+
+.top-icon-button {
+    width: 45px;
+    height: 45px;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--navy);
+    border-radius: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 19px;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+}
+
+.top-icon-button:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+}
+
+.count-badge {
+    position: absolute;
+    top: -7px;
+    right: -5px;
+    background: var(--blue);
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    min-width: 19px;
+    height: 19px;
+    border-radius: 20px;
+    display: grid;
+    place-items: center;
+}
+
+/* PAGE CONTAINER */
+
+.page-container {
+    padding: 32px 36px;
+}
+
+/* HERO BANNER */
+
+.hero-banner {
+    min-height: 348px;
+    border-radius: 25px;
+    background: linear-gradient(110deg, #111b32, #1d376c);
+    color: white;
+    padding: 42px 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+    box-shadow: 0 15px 25px #111b3220;
+}
+
+.hero-text {
+    max-width: 590px;
+}
+
+.hero-text h1 {
+    font-size: clamp(30px, 3vw, 43px);
+    line-height: 1.15;
+    margin: 0 0 15px;
+    letter-spacing: -1px;
+}
+
+.hero-text p {
+    color: #d3e0fa;
+    line-height: 1.6;
+    font-size: 16px;
+    max-width: 540px;
+}
+
+.hero-highlights {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 23px;
+}
+
+.hero-highlights span {
+    background: #ffffff1c;
+    color: #e6edff;
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: 13px;
+}
+
+.hero-button {
+    background: white;
+    color: var(--navy);
+    text-decoration: none;
+    border-radius: 13px;
+    padding: 17px 24px;
+    font-weight: 600;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.hero-button:hover {
+    background: #e8efff;
+}
+
+/* SEARCH BAR */
+
+.search-section {
+    margin: 28px 0 38px;
+}
+
+.search-form {
+    min-height: 61px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 7px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 5px 12px #111b3208;
+}
+
+.search-input-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0 13px;
+    min-width: 0;
+}
+
+.search-input-wrapper i {
+    color: #7586aa;
+    font-size: 18px;
+}
+
+.search-input-wrapper input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+    color: var(--text);
+    background: transparent;
+    padding: 12px 0;
+}
+
+.search-form select {
+    min-width: 180px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--background);
+    color: var(--text);
+    font-size: 14px;
+}
+
+.search-button {
+    border: none;
+    background: var(--blue);
+    color: white;
+    padding: 13px 23px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background: #416fc8;
+}
+
+/* SECTION HEADINGS */
+
+.category-section,
+.products-section {
+    margin-bottom: 40px;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.section-heading h2 {
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: -0.4px;
+}
+
+.section-heading span {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* CATEGORY FILTERS */
+
+.category-list {
+    display: flex;
+    gap: 11px;
+    flex-wrap: wrap;
+}
+
+.category-chip {
+    min-height: 46px;
+    padding: 0 19px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.category-chip:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+}
+
+.category-chip.selected {
+    background: var(--blue);
+    color: white;
+    border-color: var(--blue);
+}
+
+/* PRODUCT GRID */
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.empty-products {
+    min-height: 230px;
+    border: 1px dashed #cbd5e6;
+    border-radius: 18px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px;
+}
+
+.empty-products i {
+    font-size: 38px;
+    color: var(--blue);
+    margin-bottom: 12px;
+}
+
+.empty-products h3 {
+    margin: 5px 0;
+    font-size: 19px;
+}
+
+.empty-products p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 1100px) {
+    .sidebar {
+        width: 235px;
+        min-width: 235px;
+    }
+
+    .page-container {
+        padding: 25px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 750px) {
+    .sidebar {
+        width: 75px;
+        min-width: 75px;
+        padding: 15px 9px;
+    }
+
+    .brand {
+        justify-content: center;
+        padding: 0 0 25px;
+    }
+
+    .brand h2,
+    .menu-heading,
+    .menu-item span,
+    .user-info,
+    .logout-icon {
+        display: none;
+    }
+
+    .menu-item {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .menu-item i {
+        font-size: 19px;
+    }
+
+    .sidebar-user {
+        justify-content: center;
+        padding: 8px;
+    }
+
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .topbar p {
+        font-size: 12px;
+    }
+
+    .top-actions {
+        gap: 6px;
+    }
+
+    .top-icon-button {
+        width: 37px;
+        height: 37px;
+    }
+
+    .page-container {
+        padding: 18px;
+    }
+
+    .hero-banner {
+        padding: 28px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hero-text h1 {
+        font-size: 30px;
+    }
+
+    .search-form {
+        flex-wrap: wrap;
+    }
+
+    .search-input-wrapper {
+        flex-basis: 100%;
+    }
+
+    .search-form select {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading h2 {
+        font-size: 18px;
+    }
+}
+
+/* =========================================
+   ELECTROMART DARK MODE
+   ========================================= */
+
+body.dark-mode .main-content {
+    background: #0b1220;
+}
+
+body.dark-mode .topbar {
+    background: #111b32;
+    border-color: #263550;
+}
+
+body.dark-mode .topbar p,
+body.dark-mode .section-heading span {
+    color: #aebbd5;
+}
+
+body.dark-mode .page-container {
+    background: #0b1220;
+}
+
+body.dark-mode .search-form,
+body.dark-mode .search-form select,
+body.dark-mode .category-chip,
+body.dark-mode .empty-products {
+    background: #17243b;
+    color: #ffffff;
+    border-color: #30415f;
+}
+
+body.dark-mode .search-input-wrapper input {
+    color: #ffffff;
+}
+
+body.dark-mode .section-heading h2 {
+    color: #ffffff;
+}
+
+body.dark-mode .top-icon-button {
+    background: #17243b;
+    color: #ffffff;
+    border-color: #30415f;
+}
+
+body.dark-mode .category-chip.selected {
+    background: #5684dc;
+    border-color: #5684dc;
+}
+
+body.dark-mode .empty-products h3 {
+    color: #ffffff;
+}
+
+body.dark-mode .empty-products p {
+    color: #aebbd5;
+}
+
+/* =================================
+   ELECTROMART - LAYOUT IMPROVEMENTS
+================================= */
+
+/* Use the available screen width */
+.store-layout {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.sidebar {
+    flex: 0 0 250px;
+    width: 250px;
+}
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+    width: calc(100% - 250px);
+}
+
+/* Wider main content */
+.page-container {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 30px 48px;
+    box-sizing: border-box;
+}
+
+/* Larger hero banner */
+.hero-banner {
+    width: 100%;
+    min-height: 275px;
+    box-sizing: border-box;
+    margin-bottom: 24px;
+}
+
+/* Larger search area */
+.search-section {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.search-form {
+    width: 100%;
+    min-height: 58px;
+    box-sizing: border-box;
+}
+
+.search-input-wrapper {
+    flex: 1;
+    min-width: 0;
+}
+
+.search-input-wrapper input {
+    width: 100%;
+}
+
+/* Give the content more room */
+.category-section,
+.products-section {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+/* Single, clean brand logo */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    padding: 20px 18px;
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--blue);
+    color: white;
+    font-size: 21px;
+}
+
+.brand h2 {
+    margin: 0;
+    font-size: 21px;
+    line-height: 1.2;
+    color: white;
+}
+
+.brand h2 span {
+    color: #8fb2ff;
+}
+
+/* Sidebar interaction */
+.menu-item {
+    transition: background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+}
+
+.menu-item:hover {
+    background: #263d66;
+    color: #ffffff;
+    transform: translateX(4px);
+}
+
+/* Buttons and clickable elements */
+button,
+.search-button,
+.hero-button,
+.category-chip,
+.top-icon-button {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.search-button:hover,
+.hero-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(25, 55, 110, 0.2);
+}
+
+.category-chip:hover,
+.top-icon-button:hover {
+    transform: translateY(-2px);
+    border-color: var(--blue);
+    box-shadow: 0 4px 12px rgba(30, 60, 110, 0.12);
+}
+
+/* Responsive layout */
+@media (max-width: 900px) {
+    .page-container {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 750px) {
+    .sidebar {
+        flex-basis: 76px;
+        width: 76px;
+    }
+
+    .main-content {
+        width: calc(100% - 76px);
+    }
+
+    .page-container {
+        padding: 18px;
+    }
+}
+
+/* FIX SIDEBAR POSITION AND MAIN CONTENT */
+
+.store-layout {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: auto;
+    bottom: 0;
+
+    width: 250px;
+    height: 100vh;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.sidebar-menu {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.sidebar-user {
+    flex-shrink: 0;
+}
+
+.main-content {
+    display: block;
+    width: calc(100% - 250px);
+    min-width: 0;
+    margin-left: 250px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 750px) {
+    .sidebar {
+        width: 76px;
+    }
+
+    .main-content {
+        width: calc(100% - 76px);
+        margin-left: 76px;
+    }
+}
+/* FINAL DASHBOARD WIDTH ADJUSTMENT */
+
+.main-content {
+    width: calc(100% - 250px);
+    margin-left: 250px;
+    min-width: 0;
+}
+
+.page-container {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 28px 30px;
+    box-sizing: border-box;
+}
+
+.hero-banner,
+.search-section,
+.category-section,
+.products-section {
+    width: 100%;
+    max-width: none;
+}
+
+@media (max-width: 750px) {
+    .main-content {
+        width: calc(100% - 76px);
+        margin-left: 76px;
+    }
+
+    .page-container {
+        padding: 20px 16px;
+    }
+}
+
+/* =========================================
+   ELECTROMART - PRODUCT CARD DESIGN
+========================================= */
+
+.products-section {
+    margin-top: 35px;
+}
+
+.products-subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 22px;
+}
+
+/* PRODUCT CARD */
+
+.product-card {
+    background: #ffffff;
+    border: 1px solid #e8ecf3;
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    border-color: #d5e1f8;
+    box-shadow: 0 12px 28px rgba(17, 27, 50, 0.10);
+}
+
+/* PRODUCT IMAGE */
+
+.product-image-area {
+    position: relative;
+    height: 220px;
+    background: #f5f7fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* WISHLIST HEART */
+
+.product-wishlist {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #526078;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 17px;
+    text-decoration: none;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+}
+
+.product-wishlist:hover {
+    color: #e34d65;
+    background: #fff0f2;
+    transform: scale(1.08);
+}
+
+/* DISCOUNT LABEL */
+
+.product-discount {
+    position: absolute;
+    left: 13px;
+    top: 14px;
+    background: #e8f5ec;
+    color: #21834a;
+    padding: 6px 10px;
+    border-radius: 7px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* PRODUCT INFORMATION */
+
+.product-information {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.product-brand {
+    color: #7b879c;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+}
+
+.product-name {
+    color: #172033;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    min-height: 44px;
+    margin-bottom: 12px;
+}
+
+.product-pricing {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 10px;
+}
+
+.selling-price {
+    color: #111b32;
+    font-size: 20px;
+    font-weight: 750;
+}
+
+.original-price {
+    color: #929bad;
+    font-size: 13px;
+    text-decoration: line-through;
+}
+
+.product-specifications {
+    color: #788397;
+    font-size: 12px;
+    line-height: 1.5;
+    min-height: 36px;
+    margin-bottom: 17px;
+}
+
+/* VIEW DETAILS BUTTON */
+
+.product-details-button {
+    margin-top: auto;
+    width: 100%;
+    min-height: 43px;
+    background: #5684dc;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.product-details-button:hover {
+    background: #416fc5;
+    box-shadow: 0 5px 13px rgba(86, 132, 220, 0.25);
+}
+
+/* DARK MODE */
+
+body.dark-mode .product-card {
+    background: #17243b;
+    border-color: #30415f;
+}
+
+body.dark-mode .product-image-area {
+    background: #202e47;
+}
+
+body.dark-mode .product-name,
+body.dark-mode .selling-price {
+    color: #ffffff;
+}
+
+body.dark-mode .product-brand,
+body.dark-mode .product-specifications {
+    color: #aebbd5;
+}
+
+body.dark-mode .original-price {
+    color: #9ba9c0;
+}
+
+/* RESPONSIVE PRODUCT GRID */
+
+@media (max-width: 1200px) {
+    .product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 950px) {
+    .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 520px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .product-image-area {
+        height: 240px;
+    }
+}
+
+/* Product image preview actions */
+#image-preview-container {
+    margin-top: 18px;
+}
+
+#image-preview {
+    display: block;
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    border: 1px solid #e2e6ef;
+    border-radius: 12px;
+    padding: 8px;
+    background: #ffffff;
+}
+
+.image-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+
+.image-actions button {
+    cursor: pointer;
+}
+
+/* =====================================
+   ELECTROMART PRODUCT DETAILS PAGE
+===================================== */
+
+.product-details-page {
+    background: #F4F6FB;
+    color: #17233B;
+    min-height: 100vh;
+}
+
+.details-container {
+    max-width: 1250px;
+    width: 92%;
+    margin: 0 auto;
+    padding: 30px 0 60px;
+}
+
+.details-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #7B8496;
+    font-size: 13px;
+    margin-bottom: 28px;
+}
+
+.details-breadcrumb a {
+    color: #315B9B;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.product-details-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 42px;
+    background: #FFFFFF;
+    border-radius: 18px;
+    padding: 35px;
+    box-shadow: 0 8px 30px rgba(20, 40, 80, 0.06);
+}
+
+.details-image-section {
+    min-width: 0;
+}
+
+.details-image-box {
+    width: 100%;
+    min-height: 430px;
+    background: #F7F9FD;
+    border: 1px solid #E8ECF4;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+}
+
+.details-image-box img {
+    width: 100%;
+    height: 390px;
+    object-fit: contain;
+}
+
+.details-information {
+    min-width: 0;
+}
+
+.details-brand {
+    color: #5684DC;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.details-information h1 {
+    font-size: 29px;
+    line-height: 1.3;
+    margin: 0 0 10px;
+    color: #17233B;
+}
+
+.details-model {
+    color: #8992A3;
+    font-size: 13px;
+}
+
+.details-pricing {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin: 24px 0;
+}
+
+.details-selling-price {
+    color: #1D376C;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.details-original-price {
+    color: #929AAA;
+    text-decoration: line-through;
+    font-size: 17px;
+}
+
+.details-stock {
+    color: #27834C;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+.details-description,
+.details-specifications {
+    border-top: 1px solid #E9EDF4;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.details-description h3,
+.details-specifications h3 {
+    font-size: 17px;
+    margin-bottom: 12px;
+}
+
+.details-description p {
+    color: #697386;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.details-specifications table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.details-specifications th,
+.details-specifications td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #EEF0F5;
+    text-align: left;
+    font-size: 13px;
+}
+
+.details-specifications th {
+    width: 38%;
+    color: #68758B;
+    font-weight: 600;
+}
+
+.details-specifications td {
+    color: #263650;
+}
+
+.details-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 28px;
+}
+
+.details-actions button {
+    border: none;
+    border-radius: 9px;
+    padding: 15px 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: not-allowed;
+}
+
+.details-cart-button {
+    background: #244D91;
+    color: white;
+}
+
+.details-buy-button {
+    background: #F1C75B;
+    color: #17233B;
+}
+
+.integration-note {
+    color: #929AAA;
+    font-size: 11px;
+    line-height: 1.6;
+    margin-top: 13px;
+}
+
+.details-empty-state {
+    background: #FFFFFF;
+    border-radius: 18px;
+    padding: 65px 20px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(20, 40, 80, 0.05);
+}
+
+.details-empty-state > i {
+    font-size: 45px;
+    color: #5684DC;
+    margin-bottom: 20px;
+}
+
+.details-empty-state h2 {
+    color: #17233B;
+    margin-bottom: 12px;
+}
+
+.details-empty-state p {
+    color: #7B8496;
+    line-height: 1.7;
+}
+
+.details-back-button {
+    display: inline-block;
+    margin-top: 18px;
+    background: #244D91;
+    color: white;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 850px) {
+    .product-details-layout {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 22px;
+    }
+
+    .details-image-box {
+        min-height: 320px;
+    }
+
+    .details-image-box img {
+        height: 290px;
+    }
+}
+
+@media (max-width: 500px) {
+    .details-container {
+        width: 94%;
+    }
+
+    .product-details-layout {
+        padding: 15px;
+    }
+
+    .details-information h1 {
+        font-size: 23px;
+    }
+
+    .details-selling-price {
+        font-size: 25px;
+    }
+
+    .details-actions {
+        grid-template-columns: 1fr;
+    }
+}

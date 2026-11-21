@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectroMart | Home</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="store-layout">
+
+    <!-- LEFT SIDEBAR -->
+    
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <p>Free delivery on orders over ₹999</p>
+
+            <div class="top-actions">
+
+<!-- LEFT SIDEBAR -->
+<aside class="sidebar">
+
+    <!-- SINGLE BRAND LOGO -->
+    <a href="/" class="brand">
+        <div class="brand-icon">
+            <i class="fa-solid fa-bolt"></i>
+        </div>
+        <h2>Electro<span>Mart</span></h2>
+    </a>
+
+    <div class="sidebar-menu">
+
+        <p class="menu-heading">Workspace</p>
+
+        <a href="/" class="menu-item active">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+
+        <a href="/profile" class="menu-item">
+            <i class="fa-solid fa-user"></i>
+            <span>My Profile</span>
+        </a>
+
+        <p class="menu-heading account-heading">My Account</p>
+
+        <!-- These routes are integration targets for other modules -->
+        <a href="/cart" class="menu-item">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>My Cart</span>
+        </a>
+
+        <a href="/orders" class="menu-item">
+            <i class="fa-solid fa-box"></i>
+            <span>My Orders</span>
+        </a>
+
+        <a href="/wishlist" class="menu-item">
+            <i class="fa-regular fa-heart"></i>
+            <span>Wishlist</span>
+        </a>
+
+        <a href="/addresses" class="menu-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>My Addresses</span>
+        </a>
+
+        <a href="/support" class="menu-item">
+            <i class="fa-regular fa-circle-question"></i>
+            <span>Support</span>
+        </a>
+
+    </div>
+
+    <!-- USER PROFILE -->
+    <div class="sidebar-user">
+
+        <div class="user-avatar">
+            {{ user_initial or 'G' }}
+        </div>
+
+        <div class="user-info">
+            <h4>{{ user_name or 'Guest' }}</h4>
+            <p>{{ 'Signed in' if user_name else 'Guest' }}</p>
+        </div>
+
+        <a href="/logout" class="logout-icon" title="Logout">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </a>
+
+    </div>
+
+</aside>
+
+                <button class="top-icon-button"
+                        id="themeToggle"
+                        title="Toggle dark mode"
+                        type="button">
+                    <i class="fa-regular fa-moon"></i>
+                </button>
+
+                <a href="#wishlist"
+                   class="top-icon-button"
+                   title="Wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="count-badge">0</span>
+                </a>
+
+                <a href="#cart"
+                   class="top-icon-button"
+                   title="Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="count-badge">0</span>
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE BODY -->
+        <section class="page-container">
+
+            <!-- HERO BANNER -->
+            <section class="hero-banner">
+
+                <div class="hero-text">
+
+                    <h1>
+                        Welcome back, {{ user_name | default('Guest') }}!
+                        <br>
+                        Find your next gadget.
+                    </h1>
+
+                    <p>
+                        Phones, laptops, audio and smart home from trusted
+                        brands, delivered fast with easy returns.
+                    </p>
+
+                    <div class="hero-highlights">
+                        <span>Genuine products</span>
+                        <span>Easy returns</span>
+                        <span>Secure payments</span>
+                    </div>
+
+                </div>
+
+                <a href="#products" class="hero-button">
+                    Start shopping
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </section>
+
+
+            <!-- SEARCH BAR -->
+            <section class="search-section">
+
+                <form action="/" method="GET" class="search-form">
+
+                    <div class="search-input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                            type="search"
+                            name="q"
+                            placeholder="Search phones, laptops, headphones..."
+                            aria-label="Search products">
+                    </div>
+
+                    <select name="sort" aria-label="Sort products">
+                        <option value="featured">Sort: Featured</option>
+                        <option value="price_low">Price: Low to High</option>
+                        <option value="price_high">Price: High to Low</option>
+                        <option value="newest">Newest First</option>
+                    </select>
+
+                    <button type="submit" class="search-button">
+                        Search
+                    </button>
+
+                </form>
+
+            </section>
+
+
+            <!-- CATEGORY SECTION -->
+            <section class="category-section">
+
+                <div class="section-heading">
+                    <h2>Shop by category</h2>
+                    <span>Browse our collections</span>
+                </div>
+
+                <div class="category-list">
+
+                    <a href="/" class="category-chip selected">All</a>
+
+                    <a href="/?category=Smartphones" class="category-chip">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                        Smartphones
+                    </a>
+
+                    <a href="/?category=Laptops" class="category-chip">
+                        <i class="fa-solid fa-laptop"></i>
+                        Laptops
+                    </a>
+
+                    <a href="/?category=Audio" class="category-chip">
+                        <i class="fa-solid fa-headphones"></i>
+                        Audio
+                    </a>
+
+                    <a href="/?category=Wearables" class="category-chip">
+                        <i class="fa-solid fa-clock"></i>
+                        Wearables
+                    </a>
+
+                    <a href="/?category=Smart Home" class="category-chip">
+                        <i class="fa-solid fa-house"></i>
+                        Smart Home
+                    </a>
+
+                    <a href="/?category=Gaming" class="category-chip">
+                        <i class="fa-solid fa-gamepad"></i>
+                        Gaming
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            
+<!-- FEATURED PRODUCTS -->
+<section class="products-section" id="products">
+
+    <div class="section-heading">
+        <div>
+            <h2>Explore Products</h2>
+            <p class="products-subtitle">
+                Discover the latest electronics for you
+            </p>
+        </div>
+
+        <span>
+            {{ products | length if products else 0 }} products
+        </span>
+    </div>
+
+    {% if products %}
+
+        <div class="product-grid">
+
+            {% for product in products %}
+
+                <article class="product-card">
+
+                    <!-- PRODUCT IMAGE -->
+                    <div class="product-image-area">
+
+                        <img
+                            src="{{ url_for('static', filename=product.image) }}"
+                            alt="{{ product.name }}"
+                            class="product-image"
+                        >
+
+                        <!-- Wishlist integration placeholder -->
+                        <a
+                            href="#wishlist"
+                            class="product-wishlist"
+                            title="Add to Wishlist"
+                        >
+                            <i class="fa-regular fa-heart"></i>
+                        </a>
+
+                        {% if product.discount_percentage %}
+                            <span class="product-discount">
+                                {{ product.discount_percentage }}% OFF
+                            </span>
+                        {% endif %}
+
+                    </div>
+
+                    <!-- PRODUCT INFORMATION -->
+                    <div class="product-information">
+
+                        <p class="product-brand">
+                            {{ product.brand }}
+                        </p>
+
+                        <h3 class="product-name">
+                            {{ product.name }}
+                        </h3>
+
+                        <div class="product-pricing">
+
+                            <span class="selling-price">
+                                ₹{{ product.discount_price }}
+                            </span>
+
+                            {% if product.original_price %}
+                                <span class="original-price">
+                                    ₹{{ product.original_price }}
+                                </span>
+                            {% endif %}
+
+                        </div>
+
+                        <p class="product-specifications">
+                            {{ product.short_specifications }}
+                        </p>
+
+                        <a
+                            href="/product/{{ product.id }}"
+                            class="product-details-button"
+                        >
+                            View Details
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-products">
+            <i class="fa-solid fa-box-open"></i>
+            <h3>No products available yet</h3>
+            <p>
+                New products will appear here once they are added
+                by the administrator.
+            </p>
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+    </main>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+
+</body>
+</html>
