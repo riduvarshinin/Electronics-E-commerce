@@ -1,0 +1,41 @@
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask_login import login_required, current_user
+from extensions import db
+from models import Order, ReturnRequest
+
+returns = Blueprint("returns", __name__)
+
+@returns.route("/returns", methods=["GET", "POST"])
+@login_required
+def my_returns():
+    if request.method == "POST":
+        try:
+            order_id = int(request.form.get("order_id", ""))
+        except ValueError:
+            order_id = 0
+        order = Order.query.filter_by(id=order_id, user_id=current_user.id).first()
+        reason = request.form.get("reason", "").strip()
+        request_type = request.form.get("request_type", "")
+        if not order:
+            flash("Order not found in your account.", "error")
+        elif order.order_status not in ("Delivered",):
+            flash("Returns and replacements can only be requested for delivered orders.", "error")
+        elif not reason:
+            flash("Please provide a reason.", "error")
+        elif request_type not in ("Return", "Replacement"):
+            flash("Choose Return or Replacement.", "error")
+        else:
+            existing = ReturnRequest.query.filter_by(order_id=order.id, user_id=current_user.id,
+                                                      status="Pending").first()
+            if existing:
+                flash("A pending request already exists for this order.", "error")
+            else:
+                db.session.add(ReturnRequest(order_id=order.id, user_id=current_user.id,
+                                             reason=reason, request_type=request_type))
+                db.session.commit()
+                flash("Your request has been submitted.", "success")
+                return redirect(url_for("returns.my_returns"))
+        return redirect(url_for("returns.my_returns"))
+    orders = Order.query.filter_by(user_id=current_user.id, order_status="Delivered").all()
+    requests = ReturnRequest.query.filter_by(user_id=current_user.id).order_by(ReturnRequest.id.desc()).all()
+    return render_template("returns.html", orders=orders, requests=requests)
