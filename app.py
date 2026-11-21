@@ -172,6 +172,7 @@ def dashboard():
     )
 
 
+
 @app.route("/products")
 def products():
 
@@ -193,8 +194,9 @@ def products():
                 description,
                 price,
                 stock_quantity,
-                image_url
+                product_image_path
             FROM products
+            WHERE product_status = 'Active'
             ORDER BY product_id DESC
         """)
 
@@ -215,6 +217,7 @@ def products():
             cursor.close()
         if connection:
             connection.close()
+
 
 
 # LOGOUT
