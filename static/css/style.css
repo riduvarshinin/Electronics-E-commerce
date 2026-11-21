@@ -1766,3 +1766,36 @@ body.dark-mode .original-price {
         grid-template-columns: 1fr;
     }
 }
+/* ADMIN CREATE PRODUCT BUTTON */
+
+.admin-create-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 11px 18px;
+    background: #5684dc;
+    color: #ffffff;
+    border: 1px solid #5684dc;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.admin-create-button:hover {
+    background: #416fc5;
+    border-color: #416fc5;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 13px rgba(86, 132, 220, 0.25);
+}
+
+@media (max-width: 750px) {
+    .admin-create-button {
+        padding: 9px 11px;
+        font-size: 12px;
+        gap: 6px;
+    }
+}

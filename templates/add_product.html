@@ -4,255 +4,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Add Product | ElectroMart</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-    <header class="admin-header">
-        <div class="brand">Electro<span>Mart</span></div>
-        <div class="header-label">Product Management</div>
-    </header>
+<header class="admin-header">
+    <div class="brand">Electro<span>Mart</span></div>
+    <div class="header-label">Product Management</div>
+</header>
 
-    <main class="page-container">
+<main class="page-container">
 
-        <div class="page-heading">
-            <div>
-                <p class="breadcrumb">Admin / Products / Add Product</p>
-                <h1>Add New Product</h1>
-                <p class="subtitle">Enter the product information below.</p>
-            </div>
-            <a href="#" class="back-link">← Back to Products</a>
+    <div class="page-heading">
+        <div>
+            <p class="breadcrumb">Admin / Products / Add Product</p>
+            <h1>Add New Product</h1>
+            <p class="subtitle">Enter the product information below.</p>
         </div>
 
-        <form class="product-form"
-              action="{{ url_for('add_product') }}"
-              method="POST"
-              enctype="multipart/form-data">
-
-            <!-- Basic Information -->
-            
-<section class="form-section">
-    <div class="section-heading">
-        <h2>Basic Information</h2>
-        <p>Enter the main details of the product.</p>
+        <a href="{{ url_for('home') }}" class="back-link">
+            ← Back to Home
+        </a>
     </div>
 
-    <div class="basic-layout">
-        <div class="form-grid">
+    <!-- SUCCESS / ERROR MESSAGES -->
 
-            <div class="form-group">
-                <label>Product Name <span>*</span></label>
-                <input type="text" name="product_name" required>
-            </div>
-
-            <div class="form-group">
-                <label>Brand <span>*</span></label>
-                <input type="text" name="brand" required>
-            </div>
-
-            <div class="form-group">
-                <label>Model Number</label>
-                <input type="text" name="model_number"
-                       maxlength="15"
-                       pattern="[A-Za-z0-9]{1,15}"
-                       title="Maximum 15 letters and numbers">
-            </div>
-
-            <div class="form-group">
-                <label>Category <span>*</span></label>
-                <select name="category" required>
-                    <option value="">Select Category</option>
-                    <option value="Mobiles">Mobiles</option>
-                    <option value="Laptops">Laptops</option>
-                    <option value="Audio">Audio</option>
-                    <option value="Wearables">Wearables</option>
-                    <option value="Smart Home">Smart Home</option>
-                    <option value="Gaming">Gaming</option>
-                    <option value="Tablets">Tablets</option>
-                    <option value="Accessories">Accessories</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
-
-            <div class="form-group full-width">
-                <label>Product Description <span>*</span></label>
-                <textarea name="description" rows="4" required></textarea>
-            </div>
-
+    {% if success %}
+        <div class="form-message success-message" role="status">
+            <i class="fa-solid fa-circle-check"></i>
+            {{ success }}
         </div>
+    {% endif %}
 
-        <div class="basic-illustration">
-            <img src="{{ url_for('static', filename='images/cart-illustration.png') }}"
-                 alt="Shopping cart illustration">
+    {% if error %}
+        <div class="form-message error-message" role="alert">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            {{ error }}
         </div>
-    </div>
-</section>
+    {% endif %}
 
 
-            <!-- Pricing and Stock -->
-            <section class="form-section">
-                <div class="section-heading">
-                    <h2>Pricing & Inventory</h2>
-                    <p>Set the product price and available stock.</p>
-                </div>
+    <form class="product-form"
+          action="{{ url_for('add_product') }}"
+          method="POST"
+          enctype="multipart/form-data">
+
+        <!-- BASIC INFORMATION -->
+
+        <section class="form-section">
+
+            <div class="section-heading">
+                <h2>Basic Information</h2>
+                <p>Enter the main details of the product.</p>
+            </div>
+
+            <div class="basic-layout">
 
                 <div class="form-grid">
 
                     <div class="form-group">
-                        <label>Original Price (₹) <span>*</span></label>
-                        <input type="number" name="original_price"
-                               min="100" step="100"
-                               placeholder="e.g. 75000" required>
+                        <label>Product Name <span>*</span></label>
+                        <input type="text"
+                               name="product_name"
+                               maxlength="200"
+                               required>
                     </div>
 
                     <div class="form-group">
-                        <label>Discount Price (₹)</label>
-                        <input type="number" name="discount_price"
-                               min="10" step="10"
-                               placeholder="Enter discounted price">
+                        <label>Brand <span>*</span></label>
+                        <input type="text"
+                               name="brand"
+                               maxlength="100"
+                               required>
                     </div>
 
                     <div class="form-group">
-                        <label>Stock Quantity <span>*</span></label>
-                        <input type="number" name="stock"
-                               min="0" step="1"
-                               placeholder="e.g. 25" required>
+                        <label>Model Number</label>
+                        <input type="text"
+                               name="model_number"
+                               maxlength="100">
                     </div>
 
                     <div class="form-group">
-                        <label>Product Status <span>*</span></label>
-                        <select name="status" required>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
+                        <label>Category <span>*</span></label>
+
+                        <select name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="Mobiles">Mobiles</option>
+                            <option value="Laptops">Laptops</option>
+                            <option value="Tablets">Tablets</option>
+                            <option value="Headphones">Headphones</option>
+                            <option value="Accessories">Accessories</option>
+                            <option value="Smart Watches">Smart Watches</option>
+                            <option value="Cameras">Cameras</option>
+                            <option value="Televisions">Televisions</option>
                         </select>
                     </div>
 
+                    <div class="form-group full-width">
+                        <label>Product Description <span>*</span></label>
+                        <textarea name="description"
+                                  rows="4"
+                                  required></textarea>
+                    </div>
+
                 </div>
-                <p class="field-note">
-                    Stock availability will be determined using the stock quantity.
-                </p>
-            </section>
 
-            <!-- Specifications -->
-            
-<section class="form-section">
-    <div class="section-heading">
-        <h2>Product Specifications</h2>
-        <p>Fill in the specifications relevant to this product.</p>
-    </div>
+                <div class="basic-illustration">
+                    <img
+                        src="{{ url_for('static', filename='images/cart-illustration.png') }}"
+                        alt="Shopping cart illustration">
+                </div>
 
-    <div class="form-grid">
-
-        <div class="form-group">
-            <label>Colour</label>
-            <input type="text" name="colour"
-                   pattern="[A-Za-z ]+"
-                   title="Enter colour using letters only">
-        </div>
-
-        <div class="form-group">
-            <label>RAM</label>
-            <input type="text" name="ram"
-                   pattern="[A-Za-z0-9 ]+"
-                   title="Enter RAM using letters and numbers">
-        </div>
-
-        <div class="form-group">
-            <label>Storage</label>
-            <input type="text" name="storage"
-                   pattern="[A-Za-z0-9 ]+"
-                   title="Enter storage using letters and numbers">
-        </div>
-
-        <div class="form-group">
-            <label>Processor</label>
-            <input type="text" name="processor"
-                   pattern="[A-Za-z0-9 ._-]+"
-                   title="Enter a valid processor model">
-        </div>
-
-        <div class="form-group">
-            <label>Display Size (inches)</label>
-            <input type="number" name="display_size"
-                   min="0.1" step="0.1">
-        </div>
-
-        <div class="form-group">
-            <label>Battery (mAh)</label>
-            <input type="number" name="battery"
-                   min="1" step="1">
-        </div>
-
-        <div class="form-group">
-            <label>Warranty</label>
-            <input type="text" name="warranty">
-        </div>
-
-    </div>
-</section>
-
-
-            
-<!-- Product Image -->
-<section class="form-section">
-    <div class="section-heading">
-        <h2>Product Image</h2>
-        <p>Upload a clear image of the product.</p>
-    </div>
-
-    <div class="upload-area">
-        <input type="file" name="product_image"
-               id="product_image"
-               accept=".jpg,.jpeg,.png"
-               hidden>
-
-        <label for="product_image" class="upload-label">
-            <span class="upload-icon">＋</span>
-            <strong>Choose Product Image</strong>
-            <small>JPG or PNG · Maximum size 5 MB</small>
-        </label>
-
-        <div id="image-preview-container" style="display:none;">
-            <img id="image-preview" alt="Product image preview">
-
-            <div class="image-actions">
-                <button type="button" id="edit-image" class="submit-button">
-                    Edit Image
-                </button>
-
-                <button type="button" id="remove-image" class="cancel-button">
-                    Remove Image
-                </button>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
 
-            <!-- Form Actions -->
-            <div class="form-actions">
-                <button type="reset" class="cancel-button">Clear Form</button>
-                <button type="submit" class="submit-button">
-                    Add Product
-                </button>
+        <!-- PRICING AND INVENTORY -->
+
+        <section class="form-section">
+
+            <div class="section-heading">
+                <h2>Pricing & Inventory</h2>
+                <p>Set the product price and available stock.</p>
             </div>
 
-        </form>
-    </main>
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Original Price (₹) <span>*</span></label>
+                    <input type="number"
+                           name="original_price"
+                           min="100"
+                           step="0.01"
+                           placeholder="e.g. 75000"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Discount Price (₹)</label>
+                    <input type="number"
+                           name="discount_price"
+                           min="0.01"
+                           step="0.01"
+                           placeholder="Leave empty if no discount">
+                </div>
+
+                <div class="form-group">
+                    <label>Stock Quantity <span>*</span></label>
+                    <input type="number"
+                           name="stock"
+                           min="0"
+                           step="1"
+                           placeholder="e.g. 25"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Product Status <span>*</span></label>
+                    <select name="status" required>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <p class="field-note">
+                Stock availability is determined using the stock quantity.
+                Inactive products will not be displayed in the customer catalogue.
+            </p>
+
+        </section>
+
+
+        <!-- PRODUCT SPECIFICATIONS -->
+
+        <section class="form-section">
+
+            <div class="section-heading">
+                <h2>Product Specifications</h2>
+                <p>Fill in the specifications relevant to this product.</p>
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Colour</label>
+                    <input type="text"
+                           name="colour"
+                           maxlength="100">
+                </div>
+
+                <div class="form-group">
+                    <label>RAM</label>
+                    <input type="text"
+                           name="ram"
+                           maxlength="50">
+                </div>
+
+                <div class="form-group">
+                    <label>Storage</label>
+                    <input type="text"
+                           name="storage"
+                           maxlength="50">
+                </div>
+
+                <div class="form-group">
+                    <label>Processor</label>
+                    <input type="text"
+                           name="processor"
+                           maxlength="150">
+                </div>
+
+                <div class="form-group">
+                    <label>Display Size (inches)</label>
+                    <input type="text"
+                           name="display_size"
+                           maxlength="50"
+                           placeholder="e.g. 6.7 inch">
+                </div>
+
+                <div class="form-group">
+                    <label>Battery</label>
+                    <input type="text"
+                           name="battery"
+                           maxlength="100"
+                           placeholder="e.g. 5000 mAh">
+                </div>
+
+                <div class="form-group">
+                    <label>Warranty</label>
+                    <input type="text"
+                           name="warranty"
+                           maxlength="100"
+                           placeholder="e.g. 1 Year">
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PRODUCT IMAGE -->
+
+        <section class="form-section">
+
+            <div class="section-heading">
+                <h2>Product Image</h2>
+                <p>Upload a clear image of the product.</p>
+            </div>
+
+            <div class="upload-area">
+
+                <input type="file"
+                       name="product_image"
+                       id="product_image"
+                       accept=".jpg,.jpeg,.png"
+                       hidden>
+
+                <label for="product_image" class="upload-label">
+                    <span class="upload-icon">＋</span>
+                    <strong>Choose Product Image</strong>
+                    <small>JPG or PNG · Maximum size 5 MB</small>
+                </label>
+
+                <div id="image-preview-container"
+                     style="display:none;">
+
+                    <img id="image-preview"
+                         alt="Product image preview">
+
+                    <div class="image-actions">
+
+                        <button type="button"
+                                id="edit-image"
+                                class="submit-button">
+                            Edit Image
+                        </button>
+
+                        <button type="button"
+                                id="remove-image"
+                                class="cancel-button">
+                            Remove Image
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FORM ACTIONS -->
+
+        <div class="form-actions">
+
+            <button type="reset" class="cancel-button">
+                Clear Form
+            </button>
+
+            <button type="submit" class="submit-button">
+                Create Product
+            </button>
+
+        </div>
+
+    </form>
+
+</main>
+
+
+<!-- IMAGE PREVIEW JAVASCRIPT -->
+
 <script>
 
-    
 const imageInput = document.getElementById("product_image");
 const imagePreview = document.getElementById("image-preview");
 const previewContainer = document.getElementById("image-preview-container");
 const editButton = document.getElementById("edit-image");
 const removeButton = document.getElementById("remove-image");
+const productForm = document.querySelector(".product-form");
 
 let previewURL = null;
 
+
 function clearImage() {
+
     imageInput.value = "";
 
     if (previewURL) {
@@ -264,7 +349,9 @@ function clearImage() {
     previewContainer.style.display = "none";
 }
 
+
 imageInput.addEventListener("change", function () {
+
     const file = this.files[0];
 
     if (!file) return;
@@ -288,22 +375,27 @@ imageInput.addEventListener("change", function () {
     }
 
     previewURL = URL.createObjectURL(file);
+
     imagePreview.src = previewURL;
     previewContainer.style.display = "block";
+
 });
+
 
 editButton.addEventListener("click", function () {
     imageInput.click();
 });
 
+
 removeButton.addEventListener("click", function () {
     clearImage();
 });
 
-// Clear Form also resets the image preview.
-document.querySelector(".cancel-button").addEventListener("click", function () {
+
+productForm.addEventListener("reset", function () {
     setTimeout(clearImage, 0);
 });
+
 </script>
 
 </body>
