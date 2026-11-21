@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="theme-color" content="#101b2d">
+  <title>ElectroMart | Checkout, payments &amp; delivery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#checkout" aria-label="ElectroMart checkout">
+        <span class="brand-mark" aria-hidden="true">E</span>
+        <span>electro<span class="brand-accent">mart</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Order sections">
+        <a href="#checkout">Checkout</a>
+        <a href="#payment">Payment</a>
+        <a href="#orders">Orders</a>
+        <a href="#delivery">Delivery</a>
+      </nav>
+      <a class="header-help" href="#orders"><span aria-hidden="true">↗</span> Your orders</a>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow"><span class="eyebrow-dot"></span> A smoother way to shop tech</p>
+        <h1>Your order, <span>all in one place.</span></h1>
+        <p class="page-intro">Checkout, pay securely in demo mode, and follow every delivery update.</p>
+      </div>
+      <div class="secure-note"><span class="secure-icon" aria-hidden="true">✓</span><span>Secure checkout<br><small>Your payment details stay private</small></span></div>
+    </div>
+
+    <div id="global-message" class="notice" role="status" aria-live="polite" hidden></div>
+
+    <section class="module-section" id="checkout" aria-labelledby="checkout-title">
+      <div class="section-heading">
+        <div class="section-number">01</div>
+        <div><p class="section-kicker">Almost yours</p><h2 id="checkout-title">Checkout</h2></div>
+      </div>
+      <div class="module-grid checkout-grid">
+        <form id="checkout-form" class="panel form-panel" novalidate>
+          <div class="panel-heading"><div><h3>Delivery information</h3><p>Tell us where to send your order.</p></div><span class="step-tag">YOUR DETAILS</span></div>
+          <div class="field-grid">
+            <label class="field"><span>Full name</span><input name="name" autocomplete="name" maxlength="120" placeholder="e.g. Alex Morgan" required></label>
+            <label class="field"><span>Email address</span><input name="email" type="email" autocomplete="email" maxlength="254" placeholder="alex@example.com" required></label>
+            <label class="field full-field"><span>Phone number</span><input name="phone" type="tel" autocomplete="tel" maxlength="30" placeholder="+91 98765 43210" required></label>
+            <label class="field full-field"><span>Delivery address</span><textarea name="address" autocomplete="street-address" maxlength="500" rows="3" placeholder="House / flat, street, city, state and PIN code" required></textarea></label>
+          </div>
+          <div class="form-divider"></div>
+          <div class="panel-heading product-heading"><div><h3>Order item</h3><p>Enter the item and its price to calculate your total.</p></div><span class="product-glyph" aria-hidden="true">⌁</span></div>
+          <div class="field-grid">
+            <label class="field full-field"><span>Product name</span><input name="product_name" maxlength="160" placeholder="e.g. Wireless noise-cancelling headphones" required></label>
+            <label class="field"><span>Price per item <small>(₹)</small></span><input name="price" type="number" min="0.01" max="1000000" step="0.01" inputmode="decimal" placeholder="0.00" required></label>
+            <label class="field"><span>Quantity</span><input name="quantity" type="number" min="1" max="99" step="1" value="1" required></label>
+          </div>
+          <div id="checkout-message" class="inline-message" role="status" aria-live="polite" hidden></div>
+          <button class="button button-primary submit-button" type="submit"><span>Place order</span><span aria-hidden="true">→</span></button>
+        </form>
+
+        <aside class="panel summary-panel" aria-label="Checkout total">
+          <div class="summary-top"><span class="summary-icon" aria-hidden="true">▤</span><div><h3>Order summary</h3><p>Your total at a glance</p></div></div>
+          <div class="summary-line"><span>Subtotal</span><strong id="subtotal-value">₹0.00</strong></div>
+          <div class="summary-line"><span>Delivery</span><strong id="delivery-value">₹499.00</strong></div>
+          <div class="free-delivery-note">Free delivery on orders of ₹10,000 or more</div>
+          <div class="summary-total"><span>Total</span><strong id="total-value">₹0.00</strong></div>
+          <div class="summary-foot"><span aria-hidden="true">✓</span> No hidden fees. Final amount confirmed before payment.</div>
+          <div class="summary-rule"></div>
+          <div class="checkout-promise"><span class="promise-icon" aria-hidden="true">⌂</span><p><strong>Delivered with care</strong><br><span>Track every step from order to doorstep.</span></p></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="module-section" id="payment" aria-labelledby="payment-title">
+      <div class="section-heading">
+        <div class="section-number">02</div>
+        <div><p class="section-kicker">Your preferred way to pay</p><h2 id="payment-title">Payment</h2></div>
+      </div>
+      <div class="module-grid payment-grid">
+        <form id="payment-form" class="panel form-panel payment-panel" novalidate>
+          <div class="panel-heading"><div><h3>Confirm your payment</h3><p>Choose an order and payment method.</p></div><span class="step-tag">DEMO PAYMENT</span></div>
+          <div class="field-grid">
+            <label class="field"><span>Order ID</span>
+              <select name="order_id" id="payment-order" required>
+                <option value="">Select an order</option>
+                {% for order in orders %}
+                <option value="{{ order.id }}" data-total="{{ order.total_amount }}" {{ 'selected' if loop.first else '' }}>#EM-{{ "%05d"|format(order.id) }} · {{ order.customer_name }}</option>
+                {% endfor %}
+              </select>
+            </label>
+            <div class="field amount-field"><span>Total payment amount</span><div id="payment-amount" class="amount-display">Select an order</div></div>
+            <label class="field full-field"><span>Payment method</span>
+              <select name="method" required>
+                <option value="Cash on Delivery">Cash on Delivery</option>
+                <option value="UPI (Demo)">UPI (demo)</option>
+                <option value="Card (Demo)">Card (demo)</option>
+              </select>
+            </label>
+          </div>
+          <p class="demo-disclaimer"><span aria-hidden="true">ⓘ</span> Payments are simulated. Never enter card numbers, CVVs, UPI PINs, or banking credentials.</p>
+          <div id="payment-message" class="inline-message" role="status" aria-live="polite" hidden></div>
+          <button class="button button-primary submit-button" type="submit"><span>Confirm payment</span><span aria-hidden="true">→</span></button>
+        </form>
+        <aside class="panel payment-assurance">
+          <div class="assurance-symbol" aria-hidden="true">✓</div>
+          <h3>Safe by design</h3>
+          <p>UPI and card options only simulate a successful payment. No financial details are requested or stored.</p>
+          <div class="assurance-methods"><span>COD</span><span>UPI demo</span><span>Card demo</span></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="module-section" id="orders" aria-labelledby="orders-title">
+      <div class="section-heading section-heading-row">
+        <div class="section-title-wrap"><div class="section-number">03</div><div><p class="section-kicker">Past and present</p><h2 id="orders-title">Your orders</h2></div></div>
+        <span id="orders-count" class="count-pill">{{ orders|length }} {{ 'order' if orders|length == 1 else 'orders' }}</span>
+      </div>
+      <div id="orders-list" class="record-list">
+        {% for order in orders %}
+        <article class="record-card order-card">
+          <div class="record-main">
+            <div class="record-icon" aria-hidden="true">▣</div>
+            <div class="record-info"><div class="record-title-row"><h3>{{ order.items|map(attribute='product_name')|join(', ') }}</h3><span class="status-badge">{{ order.status }}</span></div><p>Order #EM-{{ "%05d"|format(order.id) }} <span class="muted-separator">·</span> {{ order.customer_name }}</p><p class="record-date">{{ order.created_at.strftime('%d %b %Y, %I:%M %p') }}</p></div>
+          </div>
+          <div class="record-side"><span class="record-total">₹{{ '%.2f'|format(order.total_amount) }}</span><span class="payment-status">{{ order.payment.status if order.payment else 'Awaiting payment' }}</span><details class="order-details"><summary>View details <span aria-hidden="true">⌄</span></summary><div class="detail-body"><p><strong>Email</strong> {{ order.email }}</p><p><strong>Phone</strong> {{ order.phone }}</p><p><strong>Address</strong> {{ order.delivery_address }}</p>{% for item in order.items %}<p><strong>{{ item.product_name }}</strong> · {{ item.quantity }} × ₹{{ '%.2f'|format(item.unit_price) }} = ₹{{ '%.2f'|format(item.line_total) }}</p>{% endfor %}<p><strong>Payment method</strong> {{ order.payment.method if order.payment else 'Not selected' }}</p></div></details></div>
+        </article>
+        {% else %}
+        <div class="empty-state" id="orders-empty"><span class="empty-icon" aria-hidden="true">▣</span><h3>No orders yet</h3><p>Your placed orders will appear here.</p><a href="#checkout">Start with checkout <span aria-hidden="true">→</span></a></div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="module-section delivery-section" id="delivery" aria-labelledby="delivery-title">
+      <div class="section-heading section-heading-row">
+        <div class="section-title-wrap"><div class="section-number">04</div><div><p class="section-kicker">From our hands to yours</p><h2 id="delivery-title">Delivery tracking</h2></div></div>
+        <span class="tracking-label"><span class="tracking-dot"></span> LIVE TRACKING</span>
+      </div>
+      <div id="delivery-list" class="delivery-list">
+        {% for delivery in deliveries %}
+        <article class="panel delivery-card" data-delivery-order="{{ delivery.order.id }}">
+          <div class="delivery-card-top"><div><p class="tracking-number">TRACKING <strong>{{ delivery.tracking_number }}</strong></p><h3>Order #EM-{{ "%05d"|format(delivery.order.id) }} <span class="muted-separator">·</span> {{ delivery.order.customer_name }}</h3></div><span class="status-badge delivery-status-badge">{{ delivery.status }}</span></div>
+          <div class="delivery-facts"><div><span>Delivery address</span><strong>{{ delivery.order.delivery_address }}</strong></div><div><span>Order date</span><strong>{{ delivery.order.created_at.strftime('%d %b %Y') }}</strong></div><div><span>Estimated delivery</span><strong>{{ delivery.estimated_delivery.strftime('%d %b %Y') }}</strong></div></div>
+          <div class="progress-track" aria-label="Delivery progress">
+            {% set delivery_steps = ['Order Placed', 'Processing', 'Shipped', 'Out for Delivery', 'Delivered'] %}
+            {% for step in delivery_steps %}<div class="progress-step {{ 'is-complete' if loop.index0 <= delivery_steps.index(delivery.status) else '' }}"><span>{{ loop.index0 + 1 }}</span><small>{{ step }}</small></div>{% endfor %}
+          </div>
+          <form class="delivery-update-form"><label class="field"><span>Update demo tracking status</span><select name="status" aria-label="Update delivery status">{% for step in delivery_steps %}<option value="{{ step }}" {{ 'selected' if step == delivery.status else '' }}>{{ step }}</option>{% endfor %}</select></label><button class="button button-secondary" type="submit">Update status</button></form>
+          <div class="inline-message delivery-message" role="status" aria-live="polite" hidden></div>
+        </article>
+        {% else %}
+        <div class="empty-state" id="delivery-empty"><span class="empty-icon" aria-hidden="true">⌖</span><h3>Nothing on the way yet</h3><p>Tracking appears as soon as you place an order.</p><a href="#checkout">Place an order <span aria-hidden="true">→</span></a></div>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><span class="footer-brand">electro<span>mart</span></span><span>Order management made simple.</span><a href="#checkout">Back to checkout ↑</a></footer>
+</body>
+</html>
